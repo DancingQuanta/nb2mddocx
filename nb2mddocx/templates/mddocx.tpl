@@ -11,6 +11,10 @@
 ![{{ cell.metadata.get('caption', '') }}]({{ path }}){{ get_label(cell) }}
 {%- endmacro %}
 
+{% macro table_caption(cell) -%}
+: {{ cell.metadata.get('caption', '') }} {{ get_label(cell) }}
+{%- endmacro %}
+
 {% block data_svg %}
 {{ figure_link(cell, output.metadata.filenames['image/svg+xml']) }}
 {% endblock data_svg %}
@@ -25,3 +29,9 @@
 
 {% block data_html %}
 {% endblock data_html %}
+
+{% block data_markdown %}
+{{ output.data['text/markdown'] }}
+
+: {{ cell.metadata.get('caption', '') }} {{ get_label(cell) }}
+{% endblock data_markdown %}
