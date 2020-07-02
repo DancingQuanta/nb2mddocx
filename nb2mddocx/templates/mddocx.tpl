@@ -37,3 +37,7 @@
 : {{ cell.metadata.get('caption', '') }} {{ get_label(cell) }}
 {% endif -%}
 {% endblock data_markdown %}
+
+% Exlude error output
+{% block error %}
+{% endblock error %}
