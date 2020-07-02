@@ -33,5 +33,7 @@
 {% block data_markdown %}
 {{ output.data['text/markdown'] }}
 
+{%- if cell.metadata.caption: %}
 : {{ cell.metadata.get('caption', '') }} {{ get_label(cell) }}
+{% endif -%}
 {% endblock data_markdown %}
