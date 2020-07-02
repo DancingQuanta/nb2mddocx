@@ -38,6 +38,16 @@
 {% endif -%}
 {% endblock data_markdown %}
 
+% Disable input cells
+{% block input scoped %}
+{%- if cell.metadata.remove_input: %}
+{%- else -%}
+```python
+{{cell.source}}
+```
+{% endif -%}
+{% endblock input %}
+
 % Exlude error output
 {% block error %}
 {% endblock error %}
