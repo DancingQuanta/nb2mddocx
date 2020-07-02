@@ -40,6 +40,12 @@
 
 % Disable input cells
 {% block input scoped %}
+{%- if nb.metadata.remove_code: %}
+{%- else -%}
+```python
+{{cell.source}}
+```
+{% endif -%}
 {% endblock input %}
 
 % Exlude error output
