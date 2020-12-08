@@ -5,6 +5,7 @@ import re
 
 from traitlets.config import Config
 from nbconvert.exporters.markdown import MarkdownExporter
+from nbconvert.preprocessors import TagRemovePreprocessor
 
 class MdDocxExporter(MarkdownExporter):
     """
@@ -15,6 +16,7 @@ class MdDocxExporter(MarkdownExporter):
         """
         The new file extension is `.md`
         """
+
         return '.md'
 
     @property
@@ -32,15 +34,23 @@ class MdDocxExporter(MarkdownExporter):
                                           'text/plain'
                                           ]
             },
+            "TagRemovePreprocessor": {
+                'enabled': True,
+                "remove_cell_tags": ["remove_cell"],
+                "remove_all_outputs_tags": ["remove_output"],
+                "remove_input_tags": ["remove_input"]
+            },
         })
         super().default_config.merge(c)
 
-        # Configure our tag removal
-        c.TagRemovePreprocessor.remove_cell_tags = ("remove_cell",)
-        c.TagRemovePreprocessor.remove_all_outputs_tags = ('remove_output',)
-        c.TagRemovePreprocessor.remove_input_tags = ('remove_input',)
-        c.TagRemovePreprocessor.enabled = True
-        c.preprocessors.append('TagRemovePreprocessor')
+        # # Configure our tag removal
+        # c.TagRemovePreprocessor.remove_cell_tags = ("remove_cell",)
+        # c.TagRemovePreprocessor.remove_all_outputs_tags = ('remove_output',)
+        # c.TagRemovePreprocessor.remove_input_tags = ('remove_input',)
+        # c.TagRemovePreprocessor.enabled = True
+        # c.MdDocxExporter.preprocessors.append('nbconvert.preprocessors.TagRemovePreprocessor')
+        # self.register_preprocessor(TagRemovePreprocessor(config=c),True)
+
         return c
 
     @property
@@ -49,10 +59,12 @@ class MdDocxExporter(MarkdownExporter):
         We want to inherit from HTML template, and have template under
         `./templates/` so append it to the search path. (see next section)
         """
+
         return super().template_path+[os.path.join(os.path.dirname(__file__), "templates")]
 
     def _template_file_default(self):
         """
         We want to use the new template we ship with our library.
         """
+
         return 'mddocx'
